@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sync Stream</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="video-container">
+    <!-- 
+      Replace 'YOUR_CLOUDFRONT_URL' with your real CloudFront distribution URL,
+      e.g. https://d123456abcdef.cloudfront.net/my-movie.mp4
+    -->
+    <video id="syncVideo" width="720" controls>
+      <source src="https://d1annbuehku5ne.cloudfront.net/movieee.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- curl -I https://d1annbuehku5ne.cloudfront.net/movieee.mp4
+  
+  aws s3 cp "C:\Users\ashwi\Downloads\We Live In Time (2024) [1080p] [WEBRip] [5.1] [YTS.MX]\movieee.mp4" s3://moviewatchparty/movieee.mp4
+
+  https://d1annbuehku5ne.cloudfront.net/movie.mp4 -->
+  <!-- Socket.io client library (automatically served by socket.io) -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
