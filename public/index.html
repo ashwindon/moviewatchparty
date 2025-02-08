@@ -7,23 +7,86 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="video-container">
-    <!-- 
-      Replace 'YOUR_CLOUDFRONT_URL' with your real CloudFront distribution URL,
-      e.g. https://d123456abcdef.cloudfront.net/my-movie.mp4
-    -->
-    <video id="syncVideo" width="720" controls>
-      <source src="https://d1annbuehku5ne.cloudfront.net/movieee.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+  <div class="room">
+    <div class="fairy-lights"></div>
+    <div class="room-lines">
+      <div class="horiz-back"></div>
+      <div class="horiz-front"></div>
+      <div class="diag-left"></div>
+      <div class="diag-right"></div>
+      <div class="corner-line tl"></div>
+      <div class="corner-line tr"></div>
+      <div class="corner-line bl"></div>
+      <div class="corner-line br"></div>
+    </div>
+    <div class="video-container">
+      <video id="syncVideo" width="720" controls>
+        <source src="https://d1annbuehku5ne.cloudfront.net/movieee.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="tv-stand"></div>
+    <div class="sofa"></div>
+    <div class="couple">
+      <div class="person male">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="arm-left"></div>
+        <div class="arm-right"></div>
+        <div class="leg-left"></div>
+        <div class="leg-right"></div>
+      </div>
+      <div class="person female">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="arm-left"></div>
+        <div class="arm-right"></div>
+        <div class="leg-left"></div>
+        <div class="leg-right"></div>
+      </div>
+    </div>
+    <!-- Remove the dog-bed div but keep the corgi div -->
+    <div class="corgi">
+      <div class="head">
+        <div class="ear ear--r"></div>
+        <div class="ear ear--l"></div>
+        <div class="eye eye--left"></div>
+        <div class="eye eye--right"></div>
+        <div class="face">
+          <div class="face__white">
+            <div class="face__orange face__orange--l"></div>
+            <div class="face__orange face__orange--r"></div>
+          </div>
+        </div>
+        <div class="face__curve"></div>
+        <div class="mouth">
+          <div class="nose"></div>
+          <div class="mouth__left">
+            <div class="mouth__left--round"></div>
+            <div class="mouth__left--sharp"></div>
+          </div>
+          <div class="lowerjaw">
+            <div class="lips"></div>
+            <div class="tongue test"></div>
+          </div>
+          <div class="snout"></div>
+        </div>
+      </div>
+      <div class="neck__back"></div>
+      <div class="neck__front"></div>
+      <div class="body">
+        <div class="body__chest"></div>
+      </div>
+      <div class="foot foot__left foot__front foot__1"></div>
+      <div class="foot foot__right foot__front foot__2"></div>
+      <div class="foot foot__left foot__back foot__3"></div>
+      <div class="foot foot__right foot__back foot__4"></div>
+      <div class="tail test"></div>
+    </div>
+    <div class="side-table">
+      <div class="lamp"></div>
+    </div>
   </div>
-
-  <!-- curl -I https://d1annbuehku5ne.cloudfront.net/movieee.mp4
-  
-  aws s3 cp "C:\Users\ashwi\Downloads\We Live In Time (2024) [1080p] [WEBRip] [5.1] [YTS.MX]\movieee.mp4" s3://moviewatchparty/movieee.mp4
-
-  https://d1annbuehku5ne.cloudfront.net/movie.mp4 -->
-  <!-- Socket.io client library (automatically served by socket.io) -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>

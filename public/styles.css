@@ -1,23 +1,837 @@
+/* ---------- Base Reset & Existing Styles ---------- */
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #1c1c1c; /* Dark background */
-    font-family: Arial, sans-serif;
-    color: #f0f0f0; /* Light text */
+  margin: 0;
+  padding: 0;
+  background-color: #1c1c1c; /* Dark background */
+  font-family: Arial, sans-serif;
+  color: #f0f0f0; /* Light text */
+}
+
+/* ---------- Room Container (Overall Scene) ---------- */
+.room {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  /* A horizontal gradient to hint at depth */
+  background: linear-gradient(90deg, #2a2a2a, #1c1c1c);
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ---------- Room Lines (Defining a Center Rectangle) ---------- */
+.room-lines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Horizontal lines of the rectangle */
+.room-lines .horiz-back {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+}
+.room-lines .horiz-front {
+  position: absolute;
+  bottom: 15%;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Vertical boundaries (using “diag-” names, but drawn vertically in 2D) */
+.room-lines .diag-left {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 2px;
+  height: 70%;
+  background: rgba(255, 255, 255, 0.1);
+  /* Remove any skew so the line is straight */
+  transform: none;
+}
+.room-lines .diag-right {
+  position: absolute;
+  top: 15%;
+  left: calc(20% + 60%);
+  width: 2px;
+  height: 70%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: none;
+}
+
+/* ---------- Corner Lines (From Screen Corners to Rectangle Corners) ---------- */
+/* We assume the rectangle’s corners are at:
+     Top-left:   (20vw, 15vh)
+     Top-right:  (80vw, 15vh)
+     Bottom-left:(20vw, 85vh)
+     Bottom-right:(80vw, 85vh)
+   Using vmin for an approximate distance calculation.
+*/
+.room-lines .corner-line {
+  position: absolute;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Top-left corner line: from (0,0) to (20vw,15vh) */
+.room-lines .corner-line.tl {
+  top: 0;
+  left: 0;
+  width: 43.5vmin;
+  transform-origin: 0 0;
+  transform: rotate(20.3deg);
+}
+
+/* Top-right corner line: from (100vw,0) to (80vw,15vh) */
+.room-lines .corner-line.tr {
+  top: 0;
+  right: 0;
+  width: 43.5vmin;
+  transform-origin: 100% 0;
+  transform: rotate(-20.3deg);
+}
+
+/* Bottom-left corner line: from (0,100vh) to (20vw,85vh) */
+.room-lines .corner-line.bl {
+  bottom: 0;
+  left: 0;
+  width: 43.5vmin;
+  transform-origin: 0 100%;
+  transform: rotate(-20.3deg);
+}
+
+/* Bottom-right corner line: from (100vw,100vh) to (80vw,85vh) */
+.room-lines .corner-line.br {
+  bottom: 0;
+  right: 0;
+  width: 43.5vmin;
+  transform-origin: 100% 100%;
+  transform: rotate(20.3deg);
+}
+
+/* ---------- TV (Video Container) – No 3D Tilt ---------- */
+.video-container {
+  position: absolute;
+  top: 25%;
+  right: 30%;
+  background-color: #121212; /* TV bezel color */
+  padding: 10px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  z-index: 2;
+}
+video {
+  outline: none;
+  border: 2px solid #555;
+  background-color: #000;
+  border-radius: 8px;
+}
+
+/* ******************************************************************************* */
+
+/* Existing styles remain unchanged */
+
+/* Updated Sofa styles */
+.sofa {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 180px;
+  background: #4a4a4a;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+}
+
+/* Couple on the sofa */
+/* New styles for detailed male and female characters */
+/* Remove existing styles for couple on the sofa */
+.couple {
+  position: absolute;
+  bottom: 28%; /* Adjust to position relative to sofa */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  height: 50%; /* Only upper body visible */
+  z-index: 6;
+}
+
+.person {
+  position: relative;
+  width: 60px;
+  height: 60px; /* Adjust height to show only upper body */
+  margin: 0 10px;
+}
+
+.male .head {
+  position: absolute;
+  top: 0;
+  left: 90%;
+  width: 40px;
+  height: 40px;
+  background: #f0c27b;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.female .head {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  width: 40px;
+  height: 40px;
+  background: #f0c27b;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+
+.male .body,
+.female .body {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  width: 50px;
+  height: 40px; /* Adjust height to show only upper body */
+  background: #333;
+  border-radius: 10px;
+  transform: translateX(-50%);
+}
+
+.male .arm-left,
+.female .arm-left,
+.male .arm-right,
+.female .arm-right {
+  position: absolute;
+  top: 50px;
+  width: 15px;
+  height: 30px; /* Adjust height to show only upper body */
+  background: #333;
+  border-radius: 10px;
+}
+
+.male .arm-left{
+  left: 10px;
+  transform: rotate(30deg);
+}
+
+.female .arm-left {
+  left: 10px;
+  transform: rotate(30deg);
+}
+
+.male .arm-right{
+  right: -40px;
+  transform: rotate(-30deg);
+  z-index: -1;
+}
+.female .arm-right {
+  right: 30px;
+  transform: rotate(-30deg);
+  visibility: hidden;
+}
+
+/* Specific styles for female character */
+.female .head {
+  background: #f0c27b;
+}
+
+.female .body {
+  background: #e75480;
+}
+
+.female .arm-left,
+.female .arm-right {
+  background: #e75480;
+}
+
+/* Position female to rest on male's shoulder */
+.female {
+  transform: translateX(-20px) rotate(-10deg);
+}
+
+/* Dog bed and dog */
+/* Updated Dog bed and dog */
+/* Previous styles remain unchanged until dog section */
+
+/* Animation keyframes for the corgi */
+@keyframes eye-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
   }
-  
-  .video-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #121212; /* Even darker container */
+  95% {
+    transform: scaleY(0.1);
   }
-  
-  video {
-    outline: none;
-    border: 2px solid #555;
-    background-color: #000;
-    border-radius: 8px;
+}
+
+@keyframes tail-wag {
+  0%,
+  100% {
+    transform: rotate(-25deg);
   }
+  50% {
+    transform: rotate(25deg);
+  }
+}
+
+@keyframes tongue-stick {
+  0%,
+  100% {
+    transform: scaleY(0.1) translateY(-20px);
+  }
+  50% {
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+@keyframes ear-shake-right {
+  0%,
+  100% {
+    transform: rotate(70deg);
+  }
+  50% {
+    transform: rotate(80deg);
+  }
+}
+
+@keyframes ear-shake-left {
+  0%,
+  100% {
+    transform: rotate(-70deg);
+  }
+  50% {
+    transform: rotate(-80deg);
+  }
+}
+
+@keyframes body-shake {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  16.666% {
+    transform: translateY(2%);
+  }
+  33.332% {
+    transform: translateY(0px);
+  }
+  49.998% {
+    transform: translateY(2%);
+  }
+  66.664% {
+    transform: translateY(0px);
+  }
+  83.33% {
+    transform: translateY(2%);
+  }
+}
+
+@keyframes paw-press {
+  0%, 100% {
+    transform: scaleY(1.0) scaleX(1.0);
+  }
+  16.666% {
+    transform: scaleY(0.9) scaleX(1.05) translateY(10%);
+  }
+  33.332% {
+    transform: scaleY(1.0) scaleX(1.0);
+  }
+  49.998% {
+    transform: scaleY(0.9) scaleX(1.05) translateY(10%);
+  }
+  66.664% {
+    transform: scaleY(1.0) scaleX(1.0);
+  }
+  83.33% {
+    transform: scaleY(0.9) scaleX(1.05) translateY(10%);
+  }
+}
+
+@keyframes neck-shake {
+  0%, 100% {
+    top: 9%;
+  }
+  16.666% {
+    top: calc(9% + 2%);
+  }
+  33.332% {
+    top: 9%;
+  }
+  49.998% {
+    top: calc(9% + 2%);
+  }
+  66.664% {
+    top: 9%;
+  }
+  83.33% {
+    top: calc(9% + 2%);
+  }
+}
+
+@keyframes head-shake {
+  0%, 100% {
+    top: 6%;
+  }
+  16.666% {
+    top: calc(6% + 2%);
+  }
+  33.332% {
+    top: 6%;
+  }
+  49.998% {
+    top: calc(6% + 2%);
+  }
+  66.664% {
+    top: 6%;
+  }
+  83.33% {
+    top: calc(6% + 2%);
+  }
+}
+
+@keyframes mouth-shake {
+  0%, 100% {
+    bottom: 0%;
+  }
+  16.666% {
+    bottom: calc(0% + 2%);
+  }
+  33.332% {
+    bottom: 0%;
+  }
+  49.998% {
+    bottom: calc(0% + 2%);
+  }
+  66.664% {
+    bottom: 0%;
+  }
+  83.33% {
+    bottom: calc(0% + 2%);
+  }
+}
+
+/* Updated dog bed positioning */
+/* .dog-bed {
+  position: absolute;
+  bottom: 5%;
+  left: 15%;
+  width: 200px;
+  height: 120px;
+  background: #6b4f2e;
+  border-radius: 60px 60px 0 0;
+  z-index: 2;
+  transform: scale(0.6); /* Scale down to fit the scene */
+/* } */
+ 
+/* Corgi container */
+/* Corgi container */
+.room .corgi {
+  position: absolute !important;
+  bottom: 10% !important;
+  left: 17% !important;
+  height: 100px !important;  /* Adjusted height */
+  width: 110px !important;   /* Adjusted width */
+  transform: none !important;
+  transform-origin: bottom center !important;
+  z-index: 3 !important;
+}
+
+/* Corgi parts */
+.corgi div {
+  position: absolute;
   
+}
+
+.ear {
+  background-color: #f09f2e;
+  height: 30%;
+  width: 55%;
+  top: 5%;
+  z-index: 3;
+}
+
+.ear--r {
+  right: 75%;
+  border-bottom-left-radius: 100% 90%;
+  border-top-left-radius: 10%;
+  transform-origin: 80% center;
+  animation: ear-shake-right 2s infinite;
+}
+
+.ear--l {
+  left: 63%;
+  background-color: #d27537;
+  border-bottom-right-radius: 100% 90%;
+  border-top-right-radius: 10%;
+  transform-origin: 20% center;
+  animation: ear-shake-left 2s infinite;
+}
+
+/* Head and face */
+.head {
+  top: 6%;
+  right: 10%;
+  height: 40%;
+  width: 30%;
+  z-index: 3;
+  animation: head-shake 2s infinite;
+}
+
+.face {
+  background-color: #f09f2e;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  z-index: 4;
+  overflow: hidden;
+}
+
+.eye {
+  background-color: #3e3954;
+  height: 6%;
+  width: 6%;
+  position: absolute;
+  z-index: 6;
+  border-radius: 50%;
+  animation: eye-blink 2s infinite;
+}
+
+.eye--left {
+  left: 40%;
+  top: 43%;
+}
+
+.eye--right {
+  right: 13%;
+  top: 41%;
+}
+
+/* Face details */
+.face__white {
+  background-color: #ffffff;
+  width: 45%;
+  height: 77%;
+  top: -15%;
+  left: 29%;
+  transform: rotate(-25deg);
+}
+
+.face__orange {
+  background-color: #f09f2e;
+  width: 110%;
+  height: 110%;
+  border-radius: 100%;
+}
+
+.face__orange--l {
+  right: 65%;
+}
+.face__orange--r {
+  left: 65%;
+}
+
+/* Body */
+.body {
+  height: 44%;
+  width: 77%;
+  background-color: #f09f2e;
+  right: 10.5%;
+  bottom: 12%;
+  border-radius: 20% 20% 40% 40%;
+  z-index: 2;
+  animation: body-shake 2s infinite;
+  overflow: hidden;
+}
+
+.body__chest {
+  background-color: #ffffff;
+  height: 87%;
+  width: 29%;
+  right: 5%;
+  bottom: -3%;
+  border-radius: 50% 50% 0 0;
+}
+
+/* Tail */
+.tail {
+  width: 26%;
+  height: 13%;
+  background-color: #d27537;
+  border-radius: 50%;
+  bottom: 40%;
+  left: 1%;
+  transform-origin: 80% center;
+  animation: tail-wag 2s infinite;
+}
+
+.mouth {
+  bottom: 0%;
+  width: 100%;
+  height: 50%;
+  left: 28%;
+  z-index: 5;
+  animation: mouth-shake 2s infinite;
+}
+
+.nose {
+  height: 36%;
+  width: 27%;
+  top: 0%;
+  background-color: #3e3954;
+  z-index: 1;
+  right: 0%;
+  border-bottom-right-radius: 50% 100%;
+  border-bottom-left-radius: 50% 100%;
+}
+
+.nose:after {
+  content: "";
+  width: 100%;
+  height: 30%;
+  display: block;
+  border-top-right-radius: 50% 100%;
+  border-top-left-radius: 50% 100%;
+  background-color: #3e3954;
+  position: absolute;
+  top: -25%;
+}
+
+.mouth__left {
+  background-color: #ffffff;
+  width: 50%;
+  height: 55%;
+}
+
+.mouth__left--round {
+  background-color: #f09f2e;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  left: -50%;
+  top: -50%;
+}
+
+.mouth__left--sharp {
+  background-color: #f09f2e;
+  width: 35%;
+  height: 50%;
+  bottom: 0px;
+  left: -20%;
+  transform: skewX(50deg);
+}
+
+.lowerjaw {
+  background-color: #ffffff;
+  width: 100%;
+  height: 80%;
+  border-radius: 50% / 100%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  bottom: -9%;
+}
+
+.lips {
+  z-index: 2;
+  height: 25%;
+  width: 35%;
+  top: 19%;
+  right: 2%;
+}
+
+.lips:before, .lips:after {
+  content: "";
+  display: block;
+  background: #ffffff;
+  width: 39%;
+  height: 100%;
+  border-color: #3e3954;
+  border-width: 3px;
+  border-style: solid;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 20%;
+  border-top-color: transparent;
+  position: absolute;
+}
+
+.lips:before {
+  z-index: 1;
+}
+
+.lips:after {
+  transform: rotateY(180deg);
+  left: initial;
+  right: 9%;
+}
+
+.tongue {
+  width: 15%;
+  height: 60%;
+  background-color: #f15f55;
+  right: 14%;
+  top: 35%;
+  border-bottom-right-radius: 50% 50%;
+  border-bottom-left-radius: 50% 50%;
+  transform-origin: 50% 0%;
+  animation: tongue-stick 2s infinite;
+}
+
+.snout {
+  background-color: #ffffff;
+  right: 0%;
+  top: 0%;
+  width: 50%;
+  height: 36%;
+  border-top-right-radius: 35% 75%;
+}
+
+.neck__back {
+  height: 50%;
+  width: 20%;
+  transform: skewX(-20deg);
+  background-color: #f09f2e;
+  z-index: 2;
+  right: 24%;
+  top: 9%;
+  animation: neck-shake 2s infinite;
+}
+
+.neck__front {
+  height: 50%;
+  width: 20%;
+  right: 11%;
+  top: 20%;
+  background-color: #f09f2e;
+  z-index: 2;
+  transform: skewX(2deg);
+}
+
+.foot {
+  height: 35%;
+  width: 9.5%;
+  bottom: 0;
+}
+
+.foot__left {
+  z-index: 3;
+  background-color: #f09f2e;
+}
+
+.foot__left:after {
+  background-color: #ffffff;
+}
+
+.foot__left:before {
+  background-color: #f09f2e;
+}
+
+.foot__right {
+  z-index: 1;
+  background-color: #d27537;
+}
+
+.foot__right:after {
+  background-color: #b6d8ef;
+}
+
+.foot__right:before {
+  background-color: #d27537;
+}
+
+.foot__back:before {
+  transform: skewX(-10deg);
+  right: -25%;
+}
+
+.foot__front:before {
+  transform: skewX(10deg);
+  right: 25%;
+}
+
+.foot__1 {
+  right: 37%;
+}
+
+.foot__2 {
+  right: 15%;
+}
+
+.foot__2:before {
+  transform: skewX(-10deg);
+  right: -25%;
+}
+
+.foot__3 {
+  left: 12.65%;
+}
+
+.foot__4 {
+  left: 31%;
+}
+
+.foot:before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+.foot:after {
+  /*paws*/
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 125%;
+  height: 18%;
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
+  animation: paw-press 2s infinite;
+}
+
+/* Side table and lamp */
+.side-table {
+  position: absolute;
+  bottom: 5%;
+  right: 22%;
+  width: 80px;
+  height: 100px;
+  background: #6b4f2e;
+  z-index: 2;
+}
+
+.lamp {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 60px;
+  background: rgba(255, 255, 224, 0.7); /* Dim light yellow color */
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 0 20px rgba(255, 255, 224, 0.5); /* Soft glow effect */
+}
+
+.test, .testrev {
+  transition: all 0.8s ease;
+}
