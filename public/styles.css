@@ -125,7 +125,7 @@ body {
   padding: 10px;
   border: 2px solid #555;
   border-radius: 8px;
-  z-index: 2;
+  z-index: 12;
 }
 video {
   outline: none;
